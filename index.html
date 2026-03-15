@@ -1,4 +1,4 @@
-a<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="da">
 <head>
   <meta charset="UTF-8">
@@ -6,8 +6,39 @@ a<!DOCTYPE html>
   <title>BoligTjek</title>
 </head>
 <body>
-  <h1>BoligTjek</h1>
-  <p>Tjek hvilken type leje din bolig er under.</p>
-  <button>Start tjek</button>
+
+<h1>BoligTjek</h1>
+
+<p>Tjek hvilken type leje din bolig er under.</p>
+
+<button onclick="startTjek()">Start tjek</button>
+
+<div id="spørgsmål"></div>
+
+<script>
+
+function startTjek() {
+  document.getElementById("spørgsmål").innerHTML = `
+    <h2>Første spørgsmål</h2>
+    <p>Er ejendommen opført før 1992?</p>
+
+    <button onclick="svarJa()">Ja</button>
+    <button onclick="svarNej()">Nej</button>
+  `;
+}
+
+function svarJa() {
+  document.getElementById("spørgsmål").innerHTML = `
+    <p>Boligen kan være omfattet af reglerne om omkostningsbestemt leje.</p>
+  `;
+}
+
+function svarNej() {
+  document.getElementById("spørgsmål").innerHTML = `
+    <p>Boligen kan være under fri lejefastsættelse.</p>
+  `;
+}
+
+</script>
+
 </body>
-</html>
