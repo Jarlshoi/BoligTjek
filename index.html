@@ -1,44 +1,144 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
+  <!-- Viser danske bogstaver korrekt -->
   <meta charset="UTF-8">
+
+  <!-- Gør siden pæn på mobil og pc -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Titel i browserfanen -->
   <title>BoligTjek</title>
+
+  <style>
+    /* Grundopsætning for hele siden */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    /* Midterstiller indholdet */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Topmenu */
+    header {
+      background-color: white;
+      border-bottom: 1px solid #ddd;
+      padding: 20px 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* Øverste sektion */
+    .hero {
+      padding: 70px 0;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 700px;
+      color: #4b5563;
+    }
+
+    /* Knap */
+    .button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 14px 22px;
+      background-color: #1d4ed8;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    /* Informationsbokse */
+    .cards {
+      margin-top: 50px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    /* Nederste infofelt */
+    .notice {
+      margin-top: 40px;
+      background-color: #eef2ff;
+      border: 1px solid #c7d2fe;
+      padding: 20px;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
 
-<h1>BoligTjek</h1>
+  <!-- Topområde -->
+  <header>
+    <div class="container">
+      <div class="logo">BoligTjek</div>
+    </div>
+  </header>
 
-<p>Tjek hvilken type leje din bolig er under.</p>
+  <!-- Introsektion -->
+  <section class="hero">
+    <div class="container">
+      <h1>Få en hurtig pejling på hvilken type leje en bolig kan være omfattet af</h1>
 
-<button onclick="startTjek()">Start tjek</button>
+      <p>
+        BoligTjek er lavet til lejere og udlejere, som ønsker en enkel måde
+        at forstå, om en bolig typisk falder under reguleret leje,
+        småhusreglen eller fri lejefastsættelse.
+      </p>
 
-<div id="spørgsmål"></div>
+      <a href="#" class="button">Start vurdering</a>
 
-<script>
+      <!-- Tre enkle bokse -->
+      <div class="cards">
+        <div class="card">
+          <h3>For lejere</h3>
+          <p>Få en første forståelse af hvilke regler din bolig muligvis er omfattet af.</p>
+        </div>
 
-function startTjek() {
-  document.getElementById("spørgsmål").innerHTML = `
-    <h2>Første spørgsmål</h2>
-    <p>Er ejendommen opført før 1992?</p>
+        <div class="card">
+          <h3>For udlejere</h3>
+          <p>Få et hurtigt overblik over hvilken type lejefastsættelse der sandsynligvis gælder.</p>
+        </div>
 
-    <button onclick="svarJa()">Ja</button>
-    <button onclick="svarNej()">Nej</button>
-  `;
-}
+        <div class="card">
+          <h3>Vejledende værktøj</h3>
+          <p>Resultatet skal forstås som vejledende og ikke som juridisk rådgivning.</p>
+        </div>
+      </div>
 
-function svarJa() {
-  document.getElementById("spørgsmål").innerHTML = `
-    <p>Boligen kan være omfattet af reglerne om omkostningsbestemt leje.</p>
-  `;
-}
-
-function svarNej() {
-  document.getElementById("spørgsmål").innerHTML = `
-    <p>Boligen kan være under fri lejefastsættelse.</p>
-  `;
-}
-
-</script>
+      <div class="notice">
+        <strong>Senere mulighed:</strong> Siden kan på sigt udvides med upload af lejekontrakt og AI-baseret analyse.
+      </div>
+    </div>
+  </section>
 
 </body>
+</html>
