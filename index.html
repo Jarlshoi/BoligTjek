@@ -1,144 +1,493 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
-  <!-- Viser danske bogstaver korrekt -->
-  <meta charset="UTF-8">
+  <!-- Tegnsæt så danske bogstaver vises korrekt -->
+  <meta charset="UTF-8" />
 
-  <!-- Gør siden pæn på mobil og pc -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Sørger for korrekt visning på mobil og tablet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Titel i browserfanen -->
+  <!-- Titel som vises i browserfanen -->
   <title>BoligTjek</title>
 
+  <!--
+  =========================================================
+  DESIGN (CSS)
+  Alt der styrer udseendet ligger her
+  =========================================================
+  -->
+
   <style>
-    /* Grundopsætning for hele siden */
+
+    /* Nulstiller lidt standard browser‑opsætning */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Grunddesign for hele siden */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f4f7fb;
+      background: #f4f7fb;
       color: #1f2937;
       line-height: 1.6;
     }
 
-    /* Midterstiller indholdet */
+    /* Central container så indhold ikke bliver for bredt */
     .container {
       width: 90%;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
-    /* Topmenu */
+    /* =====================================
+       HEADER / NAVIGATION
+       ===================================== */
+
     header {
-      background-color: white;
-      border-bottom: 1px solid #ddd;
-      padding: 20px 0;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
     }
 
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    /* Logo tekst */
     .logo {
-      font-size: 28px;
-      font-weight: bold;
+      font-size: 24px;
+      font-weight: 700;
     }
 
-    /* Øverste sektion */
+    /* Links i topmenu */
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #374151;
+      font-size: 15px;
+    }
+
+    /* =====================================
+       HERO SEKTION (øverste store intro)
+       ===================================== */
+
     .hero {
-      padding: 70px 0;
+      padding: 90px 0 70px;
     }
 
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* Stor hovedoverskrift */
     .hero h1 {
-      font-size: 42px;
-      margin-bottom: 20px;
+      font-size: 52px;
+      line-height: 1.1;
+      margin: 0 0 20px;
     }
 
+    /* Intro tekst under overskrift */
     .hero p {
       font-size: 20px;
-      max-width: 700px;
       color: #4b5563;
+      margin: 0 0 28px;
+      max-width: 700px;
     }
 
-    /* Knap */
-    .button {
+    /* Container til knapper */
+    .button-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Standard knap */
+    .btn {
       display: inline-block;
-      margin-top: 25px;
       padding: 14px 22px;
-      background-color: #1d4ed8;
-      color: white;
+      border-radius: 10px;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
+      font-weight: 700;
+      border: 1px solid #d1d5db;
     }
 
-    /* Informationsbokse */
-    .cards {
-      margin-top: 50px;
+    /* Primær knap */
+    .btn-primary {
+      background: #1d4ed8;
+      color: white;
+      border-color: #1d4ed8;
     }
 
+    /* Sekundær knap */
+    .btn-secondary {
+      background: white;
+      color: #111827;
+    }
+
+    /* Kort i hero sektionen */
+    .hero-card {
+      background: white;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero-card h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .hero-card ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    /* =====================================
+       GENERELLE SEKTIONER
+       ===================================== */
+
+    .section {
+      padding: 24px 0 70px;
+    }
+
+    .section h2 {
+      font-size: 34px;
+      margin-bottom: 14px;
+    }
+
+    .section-intro {
+      color: #4b5563;
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    /* Grid til informationskort */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    /* Selve kortene */
     .card {
-      background-color: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
     }
 
     .card h3 {
       margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 20px;
     }
 
-    /* Nederste infofelt */
-    .notice {
-      margin-top: 40px;
-      background-color: #eef2ff;
-      border: 1px solid #c7d2fe;
-      padding: 20px;
-      border-radius: 12px;
+    /* =====================================
+       TRIN / PROCESS SEKTION
+       ===================================== */
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
     }
+
+    .step {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #e5e7eb;
+    }
+
+    /* Nummer cirkel */
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #dbeafe;
+      color: #1d4ed8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    /* Informationsboks */
+    .notice {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      padding: 22px;
+      border-radius: 16px;
+      margin-top: 30px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 30px 0 50px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    /* =====================================
+       MOBIL TILPASNING
+       ===================================== */
+
+    @media (max-width: 900px) {
+
+      .hero-grid,
+      .card-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .nav {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+    }
+
   </style>
 </head>
+
 <body>
 
-  <!-- Topområde -->
+  <!-- =====================================================
+       HEADER / TOPMENU
+       ===================================================== -->
+
   <header>
-    <div class="container">
+    <div class="container nav">
+
+      <!-- Logo / projektnavn -->
       <div class="logo">BoligTjek</div>
+
+      <!-- Navigation links -->
+      <nav class="nav-links">
+        <a href="#hvordan">Sådan virker det</a>
+        <a href="#for-hvem">For hvem</a>
+        <a href="#om">Om siden</a>
+      </nav>
+
     </div>
   </header>
 
-  <!-- Introsektion -->
-  <section class="hero">
+
+  <main>
+
+    <!-- =====================================================
+         HERO SEKTION
+         Øverste del af siden
+         ===================================================== -->
+
+    <section class="hero">
+
+      <div class="container hero-grid">
+
+        <!-- Venstre side: tekst og knapper -->
+        <div>
+
+          <h1>
+            Få en hurtig pejling på hvilken type leje en bolig kan være omfattet af
+          </h1>
+
+          <p>
+            BoligTjek er lavet til lejere og udlejere, som ønsker en enkel og
+            moderne indgang til at forstå, om en bolig typisk falder under
+            reguleret leje, småhusreglen eller fri lejefastsættelse.
+          </p>
+
+          <!-- Knapper -->
+          <div class="button-row">
+            <a href="#hvordan" class="btn btn-primary">Se hvordan det virker</a>
+            <a href="#om" class="btn btn-secondary">Læs om siden</a>
+          </div>
+
+        </div>
+
+        <!-- Højre side: informationskort -->
+        <div class="hero-card">
+
+          <h3>Det kan du bruge siden til</h3>
+
+          <ul>
+            <li>Få en vejledende vurdering</li>
+            <li>Forstå centrale forskelle i lejetyper</li>
+            <li>Se hvilke oplysninger der kan være afgørende</li>
+            <li>Få et bedre udgangspunkt før videre afklaring</li>
+          </ul>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HVEM ER SIDEN TIL
+         ===================================================== -->
+
+    <section class="section" id="for-hvem">
+
+      <div class="container">
+
+        <h2>Hvem er siden til?</h2>
+
+        <p class="section-intro">
+          Siden er lavet til både lejere og udlejere, som ønsker et hurtigt
+          overblik uden at starte i lange lovtekster.
+        </p>
+
+        <!-- Tre informationskort -->
+        <div class="card-grid">
+
+          <div class="card">
+            <h3>For lejere</h3>
+            <p>
+              Få en bedre forståelse af hvilke regler din bolig muligvis er
+              omfattet af.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>For udlejere</h3>
+            <p>
+              Få et første overblik over hvilken model en bolig sandsynligvis
+              falder under.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Vejledende værktøj</h3>
+            <p>
+              BoligTjek er tænkt som et oplysningsværktøj og ikke juridisk
+              rådgivning.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         HVORDAN VIRKER DET
+         ===================================================== -->
+
+    <section class="section" id="hvordan">
+
+      <div class="container">
+
+        <h2>Sådan kan det virke</h2>
+
+        <p class="section-intro">
+          Første version kan starte simpelt med et digitalt tjek. Senere kan
+          siden udvides med dokumentanalyse og AI.
+        </p>
+
+        <div class="steps">
+
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Indtast oplysninger</h3>
+            <p>
+              Brugeren svarer på enkle spørgsmål om ejendommen og lejemålet.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Få en vurdering</h3>
+            <p>
+              Siden giver en vejledende konklusion om hvilken type leje der
+              sandsynligvis gælder.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Se næste skridt</h3>
+            <p>
+              Brugeren får indblik i hvilke forhold der bør undersøges
+              nærmere.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Fremtidig funktion -->
+        <div class="notice">
+          <strong>Mulig næste fase:</strong>
+          Senere kan siden tilbyde upload af lejekontrakt eller andre
+          dokumenter til analyse.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         OM SIDEN
+         ===================================================== -->
+
+    <section class="section" id="om">
+
+      <div class="container">
+
+        <h2>Om BoligTjek</h2>
+
+        <p class="section-intro">
+          BoligTjek er et projekt i tidlig fase. Målet er at gøre komplekse
+          regler mere overskuelige gennem et enkelt digitalt værktøj.
+        </p>
+
+        <div class="notice">
+          <strong>Vigtigt:</strong>
+          Resultater på siden er vejledende og kan ikke erstatte juridisk
+          rådgivning.
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer>
+
     <div class="container">
-      <h1>Få en hurtig pejling på hvilken type leje en bolig kan være omfattet af</h1>
-
-      <p>
-        BoligTjek er lavet til lejere og udlejere, som ønsker en enkel måde
-        at forstå, om en bolig typisk falder under reguleret leje,
-        småhusreglen eller fri lejefastsættelse.
-      </p>
-
-      <a href="#" class="button">Start vurdering</a>
-
-      <!-- Tre enkle bokse -->
-      <div class="cards">
-        <div class="card">
-          <h3>For lejere</h3>
-          <p>Få en første forståelse af hvilke regler din bolig muligvis er omfattet af.</p>
-        </div>
-
-        <div class="card">
-          <h3>For udlejere</h3>
-          <p>Få et hurtigt overblik over hvilken type lejefastsættelse der sandsynligvis gælder.</p>
-        </div>
-
-        <div class="card">
-          <h3>Vejledende værktøj</h3>
-          <p>Resultatet skal forstås som vejledende og ikke som juridisk rådgivning.</p>
-        </div>
-      </div>
-
-      <div class="notice">
-        <strong>Senere mulighed:</strong> Siden kan på sigt udvides med upload af lejekontrakt og AI-baseret analyse.
-      </div>
+      BoligTjek · Foreløbig prototype
     </div>
-  </section>
+
+  </footer>
 
 </body>
+
 </html>
