@@ -510,3 +510,123 @@
 </body>
 
 </html>
+<div class="address-search">
+  <label for="adresseInput">Søg adresse</label>
+  <input
+    type="text"
+    id="adresseInput"
+    placeholder="Skriv adresse, fx Jagtvej 12, København"
+    autocomplete="off"
+  />
+  <div id="adresseResultater" class="results"></div>
+</div>
+
+<style>
+  .address-search {
+    max-width: 600px;
+    position: relative;
+  }
+
+  .address-search label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .address-search input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    overflow: hidden;
+    z-index: 1000;
+    display: none;
+  }
+
+  .result-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .result-item:last-child {
+    border-bottom: none;
+  }
+
+  .result-item:hover {
+    background: #f8fafc;
+  }
+</style>
+
+<script>
+  const input = document.getElementById("adresseInput");
+  const resultsBox = document.getElementById("adresseResultater");
+
+  let debounceTimer;
+
+  input.addEventListener("input", function () {
+    const query = input.value.trim();
+
+    clearTimeout(debounceTimer);
+
+    if (query.length < 3) {
+      resultsBox.style.display = "none";
+      resultsBox.innerHTML = "";
+      return;
+    }
+
+    debounceTimer = setTimeout(async () => {
+      try {
+        const url = `https://api.dataforsyningen.dk/adresser/autocomplete?q=${encodeURIComponent(query)}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        resultsBox.innerHTML = "";
+
+        if (!data.length) {
+          resultsBox.style.display = "none";
+          return;
+        }
+
+        data.slice(0, 8).forEach(item => {
+          const div = document.createElement("div");
+          div.className = "result-item";
+          div.textContent = item.tekst;
+
+          div.addEventListener("click", () => {
+            input.value = item.tekst;
+            resultsBox.innerHTML = "";
+            resultsBox.style.display = "none";
+
+            console.log("Valgt adresse:", item);
+          });
+
+          resultsBox.appendChild(div);
+        });
+
+        resultsBox.style.display = "block";
+      } catch (error) {
+        console.error("Fejl ved adresseopslag:", error);
+        resultsBox.style.display = "none";
+      }
+    }, 250);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".address-search")) {
+      resultsBox.style.display = "none";
+    }
+  });
+</script>
