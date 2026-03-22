@@ -1,31 +1,15 @@
 <!DOCTYPE html>
 <html lang="da">
-
 <head>
-  <!-- Tegnsæt så danske bogstaver vises korrekt -->
   <meta charset="UTF-8" />
-
-  <!-- Sørger for korrekt visning på mobil og tablet -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Titel som vises i browserfanen -->
   <title>BoligTjek</title>
 
-  <!--
-  =========================================================
-  DESIGN (CSS)
-  Alt der styrer udseendet ligger her
-  =========================================================
-  -->
-
   <style>
-
-    /* Nulstiller lidt standard browser‑opsætning */
     * {
       box-sizing: border-box;
     }
 
-    /* Grunddesign for hele siden */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -34,22 +18,18 @@
       line-height: 1.6;
     }
 
-    /* Central container så indhold ikke bliver for bredt */
     .container {
       width: 90%;
       max-width: 1100px;
       margin: 0 auto;
     }
 
-    /* =====================================
-       HEADER / NAVIGATION
-       ===================================== */
-
     header {
       background: #ffffff;
       border-bottom: 1px solid #e5e7eb;
       position: sticky;
       top: 0;
+      z-index: 1000;
     }
 
     .nav {
@@ -59,19 +39,16 @@
       padding: 18px 0;
     }
 
-    /* Logo tekst */
     .logo {
       font-size: 24px;
       font-weight: 700;
     }
-    
-    /* Fjerner understregning og beholder samme farve */
-.logo a {
-  text-decoration: none;
-  color: inherit;
-}
 
-    /* Links i topmenu */
+    .logo a {
+      text-decoration: none;
+      color: inherit;
+    }
+
     .nav-links {
       display: flex;
       gap: 24px;
@@ -83,67 +60,30 @@
       font-size: 15px;
     }
 
-    /* =====================================
-       HERO SEKTION (øverste store intro)
-       ===================================== */
-
     .hero {
       padding: 90px 0 70px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 40px;
-      align-items: center;
+      align-items: start;
     }
 
-    /* Stor hovedoverskrift */
     .hero h1 {
       font-size: 52px;
       line-height: 1.1;
       margin: 0 0 20px;
     }
 
-    /* Intro tekst under overskrift */
     .hero p {
       font-size: 20px;
       color: #4b5563;
-      margin: 0 0 28px;
+      margin: 0 0 22px;
       max-width: 700px;
     }
 
-    /* Container til knapper */
-    .button-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    /* Standard knap */
-    .btn {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 700;
-      border: 1px solid #d1d5db;
-    }
-
-    /* Primær knap */
-    .btn-primary {
-      background: #1d4ed8;
-      color: white;
-      border-color: #1d4ed8;
-    }
-
-    /* Sekundær knap */
-    .btn-secondary {
-      background: white;
-      color: #111827;
-    }
-
-    /* Kort i hero sektionen */
     .hero-card {
       background: white;
       border-radius: 18px;
@@ -154,16 +94,120 @@
     .hero-card h3 {
       margin-top: 0;
       font-size: 22px;
+      margin-bottom: 12px;
     }
 
-    .hero-card ul {
-      padding-left: 20px;
-      margin-bottom: 0;
+    .hero-card p {
+      font-size: 16px;
+      margin-bottom: 18px;
     }
 
-    /* =====================================
-       GENERELLE SEKTIONER
-       ===================================== */
+    .address-search {
+      position: relative;
+      margin-top: 28px;
+      max-width: 700px;
+    }
+
+    .address-search label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .address-search input {
+      width: 100%;
+      padding: 18px 18px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 17px;
+      background: white;
+    }
+
+    .address-search input:focus {
+      outline: none;
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.10);
+    }
+
+    .results {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
+      overflow: hidden;
+      z-index: 1000;
+      display: none;
+    }
+
+    .result-item {
+      padding: 14px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 15px;
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-item:hover {
+      background: #f8fafc;
+    }
+
+    .selected-address,
+    .property-data,
+    .error-box {
+      margin-top: 16px;
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: none;
+    }
+
+    .selected-address {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+    }
+
+    .property-data {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 24px;
+      margin-top: 12px;
+    }
+
+    .data-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .data-label {
+      display: block;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .data-value {
+      font-weight: 700;
+      color: #111827;
+    }
 
     .section {
       padding: 24px 0 70px;
@@ -180,14 +224,12 @@
       margin-bottom: 28px;
     }
 
-    /* Grid til informationskort */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
 
-    /* Selve kortene */
     .card {
       background: white;
       border-radius: 16px;
@@ -201,38 +243,6 @@
       font-size: 20px;
     }
 
-    /* =====================================
-       TRIN / PROCESS SEKTION
-       ===================================== */
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .step {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid #e5e7eb;
-    }
-
-    /* Nummer cirkel */
-    .step-number {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #dbeafe;
-      color: #1d4ed8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    /* Informationsboks */
     .notice {
       background: #eef2ff;
       border: 1px solid #c7d2fe;
@@ -241,22 +251,16 @@
       margin-top: 30px;
     }
 
-    /* Footer */
     footer {
       padding: 30px 0 50px;
       color: #6b7280;
       font-size: 14px;
     }
 
-    /* =====================================
-       MOBIL TILPASNING
-       ===================================== */
-
     @media (max-width: 900px) {
-
       .hero-grid,
       .card-grid,
-      .steps {
+      .data-grid {
         grid-template-columns: 1fr;
       }
 
@@ -269,364 +273,317 @@
         gap: 12px;
         align-items: flex-start;
       }
-    }
 
+      .nav-links {
+        flex-wrap: wrap;
+      }
+    }
   </style>
 </head>
 
 <body>
-
-  <!-- =====================================================
-       HEADER / TOPMENU
-       ===================================================== -->
-
   <header>
     <div class="container nav">
-
-      <!-- Logo / projektnavn -->
       <div class="logo">
-  <a href="#">BoligTjek</a>
-</div>
+        <a href="#">BoligTjek</a>
+      </div>
 
-<!-- Navigation links -->
-<nav class="nav-links">
-  <a href="#hvordan">Sådan virker det</a>
-  <a href="#for-hvem">Hvem er siden til?</a>
-  <a href="#om">Om dokumentation</a>
-</nav>
-
+      <nav class="nav-links">
+        <a href="#hvordan">Sådan virker det</a>
+        <a href="#for-hvem">Hvem er siden til?</a>
+        <a href="#om">Om værktøjet</a>
+      </nav>
     </div>
   </header>
 
-
   <main>
-
-    <!-- =====================================================
-         HERO SEKTION
-         Øverste del af siden
-         ===================================================== -->
-
     <section class="hero">
-
       <div class="container hero-grid">
 
-        <!-- Venstre side: tekst og knapper -->
         <div>
+          <h1>Undersøg dit lejemål</h1>
 
-         <h1>
-  Få overblik over, hvorfor dokumentation er afgørende ved udlejning efter lejelovens § 19, stk. 2
-</h1>
+          <p>
+            Start med at vælge adressen på ejendommen. Første trin er at finde
+            den korrekte adresse og hente grundlæggende adresseoplysninger.
+            Næste trin bliver at koble adressen til ejendoms- og bygningsdata.
+          </p>
 
-<p>
-  BoligTjek er lavet til udlejere, rådgivere og andre, der ønsker et praktisk
-  overblik over, hvilke krav der skal være opfyldt for at kunne udleje et
-  lejemål som gennemgribende forbedret – og hvorfor dokumentation ofte bliver
-  afgørende i både nævn og boligret.
-</p>
+          <div class="address-search">
+            <label for="adresseInput">Søg adresse</label>
+            <input
+              type="text"
+              id="adresseInput"
+              placeholder="Skriv adresse, fx Jagtvej 12, København"
+              autocomplete="off"
+            />
+            <div id="adresseResultater" class="results"></div>
+          </div>
 
-<div class="button-row">
-  <a href="#hvordan" class="btn btn-primary">Se krav og proces</a>
-  <a href="#om" class="btn btn-secondary">Læs om dokumentation</a>
-</div>
-          
+          <div id="valgtAdresse" class="selected-address"></div>
+          <div id="ejendomsData" class="property-data"></div>
+          <div id="fejlBoks" class="error-box"></div>
         </div>
 
-        <!-- Højre side: informationskort -->
         <div class="hero-card">
+          <h3>Hvad sker der efter adressevalg?</h3>
+          <p>
+            Når en adresse vælges, kan siden hente de første oplysninger direkte
+            fra adresseregistret. Senere kan samme adresse bruges som nøgle til
+            opslag i BBR/Datafordeler via backend.
+          </p>
 
-<h3>Det kan du bruge siden til</h3>
-
-<ul>
-  <li>Få overblik over kravene i lejelovens § 19, stk. 2</li>
-  <li>Forstå hvorfor fakturaer, regnskaber og betalingsspor er afgørende</li>
-  <li>Se hvilke frister, beløbsgrænser og formkrav der typisk giver problemer</li>
-  <li>Få et bedre grundlag for at vurdere om dokumentationen er tilstrækkelig</li>
-</ul>
-
+          <ul>
+            <li>Valg af præcis adresse</li>
+            <li>Visning af adresse-id og adgangsadresse-id</li>
+            <li>Visning af postnummer, kommune og koordinater</li>
+            <li>Klar til næste trin med BBR-opslag</li>
+          </ul>
         </div>
 
       </div>
-
     </section>
-
-
-    <!-- =====================================================
-         HVEM ER SIDEN TIL
-         ===================================================== -->
 
     <section class="section" id="for-hvem">
-
       <div class="container">
+        <h2>Hvem er siden til?</h2>
 
-<h2>Hvem er siden til?</h2>
+        <p class="section-intro">
+          Siden er lavet til lejere, udlejere, administratorer og rådgivere,
+          som ønsker et bedre og mere struktureret udgangspunkt for at undersøge
+          et konkret lejemål.
+        </p>
 
-<p class="section-intro">
-  Siden er særligt relevant for udlejere, administratorer og rådgivere, som
-  arbejder med gennemgribende forbedrede lejemål og vil forstå, hvilke krav der
-  skal dokumenteres for at fastholde lejefastsættelse efter § 19, stk. 2.
-</p>
+        <div class="card-grid">
+          <div class="card">
+            <h3>For lejere</h3>
+            <p>Find ejendommen hurtigt og brug adressen som første skridt i et lejetjek.</p>
+          </div>
 
-        <!-- Tre informationskort -->
-       <div class="card-grid">
+          <div class="card">
+            <h3>For udlejere</h3>
+            <p>Brug adressen som nøglen til videre opslag i registre og dokumentation.</p>
+          </div>
 
-  <div class="card">
-    <h3>For udlejere</h3>
-    <p>
-      Få overblik over hvilke bilag og oplysninger der typisk skal kunne
-      fremlægges for at dokumentere forbedringsudgifter, tidsfrister og
-      lejens niveau.
-    </p>
-  </div>
-
-  <div class="card">
-    <h3>For administratorer og rådgivere</h3>
-    <p>
-      Brug siden som et struktureret overblik over de materielle og formelle
-      betingelser, der ofte bliver afgørende i nævnssager og i boligretten.
-    </p>
-  </div>
-
-  <div class="card">
-    <h3>Vejledende værktøj</h3>
-    <p>
-      Siden er et oplysningsværktøj og ikke en erstatning for konkret juridisk
-      rådgivning eller sagsvurdering.
-    </p>
-  </div>
-
-</div>
-
+          <div class="card">
+            <h3>For rådgivere</h3>
+            <p>Skab et enkelt indgangspunkt før mere detaljerede vurderinger og opslag.</p>
+          </div>
+        </div>
       </div>
-
     </section>
-
-
-    <!-- =====================================================
-         HVORDAN VIRKER DET
-         ===================================================== -->
 
     <section class="section" id="hvordan">
-
       <div class="container">
+        <h2>Sådan virker det</h2>
 
-<h2>Sådan kan det virke</h2>
+        <p class="section-intro">
+          Første version starter med adressevalg. Derefter kan den valgte adresse
+          bruges som grundlag for at hente flere offentlige oplysninger.
+        </p>
 
-<p class="section-intro">
-  Første version kan bruges som et struktureret overblik over, hvilke krav og
-  dokumentationspunkter der skal være på plads. Senere kan siden udvides med
-  dokumentanalyse og AI-baseret gennemgang.
-</p>
+        <div class="card-grid">
+          <div class="card">
+            <h3>1. Vælg adresse</h3>
+            <p>Søg og vælg den præcise adresse fra dropdown-listen.</p>
+          </div>
 
-        <div class="steps">
+          <div class="card">
+            <h3>2. Hent adresseoplysninger</h3>
+            <p>Vis grunddata som adresse-id, adgangsadresse-id, kommune og koordinater.</p>
+          </div>
 
-  <div class="step">
-    <div class="step-number">1</div>
-    <h3>Afklar grundbetingelserne</h3>
-    <p>
-      Undersøg om lejemålet opfylder de centrale krav om gennemgribende
-      forbedring, beløbsgrænser, 2-årsfrist og relevante skæringsdatoer.
-    </p>
-  </div>
+          <div class="card">
+            <h3>3. Klar til BBR</h3>
+            <p>Næste trin er at koble adressen til en backend, som sikkert kan hente BBR-data.</p>
+          </div>
+        </div>
 
-  <div class="step">
-    <div class="step-number">2</div>
-    <h3>Kontrollér dokumentationen</h3>
-    <p>
-      Vurdér om der foreligger ordnede fakturaer, byggeregnskab, betalingsspor
-      og øvrige bilag, som kan løfte bevisbyrden i en tvist.
-    </p>
-  </div>
-
-  <div class="step">
-    <div class="step-number">3</div>
-    <h3>Se risici og næste skridt</h3>
-    <p>
-      Få overblik over om der kan være problemer med 19,3-besigtigelse,
-      energikrav, opretholdelsespligt eller manglende dokumentation, som kan
-      føre til nedsættelse af lejen.
-    </p>
-  </div>
-
-</div>
-        <!-- Fremtidig funktion -->
-<div class="notice">
-  <strong>Mulig næste fase:</strong>
-  Senere kan siden give mulighed for upload af fakturaer, byggeregnskab,
-  lejekontrakt og øvrige bilag med henblik på AI-baseret kontrol af, om
-  dokumentationen understøtter udlejning efter § 19, stk. 2.
-</div>
+        <div class="notice">
+          <strong>Næste fase:</strong>
+          Direkte frontend-opslag kan bruges til adresser. BBR/Datafordeler bør
+          kaldes fra backend, så nøgler og autentifikation ikke ligger åbent i browseren.
+        </div>
       </div>
-
     </section>
 
-
-    <!-- =====================================================
-         OM SIDEN
-         ===================================================== -->
-
     <section class="section" id="om">
-
       <div class="container">
-<h2>Om dokumentation</h2>
+        <h2>Om værktøjet</h2>
 
-<p class="section-intro">
-  Dokumentation er central, fordi udlejer i en tvist skal kunne bevise både
-  forbedringsudgifterne, 2-årsfristen og i boligretten også, at lejen ikke
-  overstiger det lejedes værdi. Mangelfuld dokumentation kan føre til, at
-  lejefastsættelsen efter § 19, stk. 2 ikke kan fastholdes.
-</p>
-
-<div class="notice">
-  <strong>Vigtigt:</strong>
-  Praktisk dokumentation omfatter typisk fakturaer, byggeregnskab,
-  betalingsdokumentation, oplysninger om besigtigelse efter § 19, stk. 3,
-  eventuelle energikrav og løbende opretholdelse af forbedringen.
-</div>
+        <p class="section-intro">
+          BoligTjek er i tidlig fase. Først bygges en stabil adressevælger og
+          tydelig visning af grunddata. Derefter kan løsningen udvides med
+          ejendomsdata, lejelogik og dokumentanalyse.
+        </p>
 
         <div class="notice">
           <strong>Vigtigt:</strong>
-          Resultater på siden er vejledende og kan ikke erstatte juridisk
-          rådgivning.
+          De egentlige BBR-oplysninger som opførelsesår, areal og bygningstype
+          bør hentes via backend mod Datafordeler, ikke direkte fra åben browserkode.
         </div>
-
       </div>
-
     </section>
-
   </main>
 
-
-  <!-- =====================================================
-       FOOTER
-       ===================================================== -->
-
   <footer>
-
-<div class="container">
-  BoligTjek · Overblik over dokumentationskrav ved lejelovens § 19, stk. 2
-</div>
+    <div class="container">
+      BoligTjek · Prototype med adressevalg og grunddata
+    </div>
   </footer>
 
-</body>
+  <script>
+    const input = document.getElementById("adresseInput");
+    const resultsBox = document.getElementById("adresseResultater");
+    const valgtAdresseBox = document.getElementById("valgtAdresse");
+    const ejendomsDataBox = document.getElementById("ejendomsData");
+    const fejlBoks = document.getElementById("fejlBoks");
 
-</html>
-<div class="address-search">
-  <label for="adresseInput">Søg adresse</label>
-  <input
-    type="text"
-    id="adresseInput"
-    placeholder="Skriv adresse, fx Jagtvej 12, København"
-    autocomplete="off"
-  />
-  <div id="adresseResultater" class="results"></div>
-</div>
+    let debounceTimer;
 
-<style>
-  .address-search {
-    max-width: 600px;
-    position: relative;
-  }
-
-  .address-search label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-  }
-
-  .address-search input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    font-size: 16px;
-  }
-
-  .results {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #d1d5db;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    overflow: hidden;
-    z-index: 1000;
-    display: none;
-  }
-
-  .result-item {
-    padding: 12px 16px;
-    cursor: pointer;
-    border-bottom: 1px solid #f1f5f9;
-  }
-
-  .result-item:last-child {
-    border-bottom: none;
-  }
-
-  .result-item:hover {
-    background: #f8fafc;
-  }
-</style>
-
-<script>
-  const input = document.getElementById("adresseInput");
-  const resultsBox = document.getElementById("adresseResultater");
-
-  let debounceTimer;
-
-  input.addEventListener("input", function () {
-    const query = input.value.trim();
-
-    clearTimeout(debounceTimer);
-
-    if (query.length < 3) {
-      resultsBox.style.display = "none";
-      resultsBox.innerHTML = "";
-      return;
+    function skjulBokse() {
+      valgtAdresseBox.style.display = "none";
+      ejendomsDataBox.style.display = "none";
+      fejlBoks.style.display = "none";
+      fejlBoks.innerHTML = "";
     }
 
-    debounceTimer = setTimeout(async () => {
-      try {
-        const url = `https://api.dataforsyningen.dk/adresser/autocomplete?q=${encodeURIComponent(query)}`;
-        const response = await fetch(url);
-        const data = await response.json();
+    function renderAdresseData(adresse) {
+      ejendomsDataBox.style.display = "block";
+      ejendomsDataBox.innerHTML = `
+        <strong>Grunddata fra adresseopslaget</strong>
+        <div class="data-grid">
+          <div class="data-item">
+            <span class="data-label">Adresse-id</span>
+            <span class="data-value">${adresse.id ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Adgangsadresse-id</span>
+            <span class="data-value">${adresse.adgangsadresseid ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Vejnavn</span>
+            <span class="data-value">${adresse.vejnavn ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Husnr.</span>
+            <span class="data-value">${adresse.husnr ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Postnummer</span>
+            <span class="data-value">${adresse.postnr ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Postdistrikt</span>
+            <span class="data-value">${adresse.postnrnavn ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Kommunekode</span>
+            <span class="data-value">${adresse.kommunekode ?? "-"}</span>
+          </div>
+          <div class="data-item">
+            <span class="data-label">Koordinater</span>
+            <span class="data-value">${adresse.x ?? "-"}, ${adresse.y ?? "-"}</span>
+          </div>
+        </div>
+      `;
+    }
 
+    async function hentAdresseDetaljer(adresseId) {
+      const url = `https://api.dataforsyningen.dk/adresser/${adresseId}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Kunne ikke hente adresseoplysninger.");
+      }
+
+      return await response.json();
+    }
+
+    async function hentBbrDataFraBackend(adresseId) {
+      // Senere backend-kald:
+      // const response = await fetch(`/api/bbr?adresseId=${encodeURIComponent(adresseId)}`);
+      // return await response.json();
+
+      return null;
+    }
+
+    input.addEventListener("input", function () {
+      const query = input.value.trim();
+
+      clearTimeout(debounceTimer);
+      skjulBokse();
+
+      if (query.length < 3) {
+        resultsBox.style.display = "none";
         resultsBox.innerHTML = "";
+        return;
+      }
 
-        if (!data.length) {
-          resultsBox.style.display = "none";
-          return;
-        }
+      debounceTimer = setTimeout(async () => {
+        try {
+          const url = `https://api.dataforsyningen.dk/adresser/autocomplete?q=${encodeURIComponent(query)}`;
+          const response = await fetch(url);
+          const data = await response.json();
 
-        data.slice(0, 8).forEach(item => {
-          const div = document.createElement("div");
-          div.className = "result-item";
-          div.textContent = item.tekst;
+          resultsBox.innerHTML = "";
 
-          div.addEventListener("click", () => {
-            input.value = item.tekst;
-            resultsBox.innerHTML = "";
+          if (!data.length) {
             resultsBox.style.display = "none";
+            return;
+          }
 
-            console.log("Valgt adresse:", item);
+          data.slice(0, 8).forEach(item => {
+            const div = document.createElement("div");
+            div.className = "result-item";
+            div.textContent = item.tekst;
+
+            div.addEventListener("click", async () => {
+              try {
+                input.value = item.tekst;
+                resultsBox.innerHTML = "";
+                resultsBox.style.display = "none";
+                fejlBoks.style.display = "none";
+
+                valgtAdresseBox.style.display = "block";
+                valgtAdresseBox.innerHTML = `
+                  <strong>Valgt adresse:</strong><br>
+                  ${item.tekst}
+                `;
+
+                const adresseId = item.adresse?.id;
+                if (!adresseId) {
+                  throw new Error("Adresse-id mangler i svaret.");
+                }
+
+                const adresseDetaljer = await hentAdresseDetaljer(adresseId);
+                renderAdresseData(adresseDetaljer);
+
+                const bbrData = await hentBbrDataFraBackend(adresseId);
+                console.log("BBR-data (placeholder):", bbrData);
+              } catch (error) {
+                fejlBoks.style.display = "block";
+                fejlBoks.innerHTML = `Fejl: ${error.message}`;
+              }
+            });
+
+            resultsBox.appendChild(div);
           });
 
-          resultsBox.appendChild(div);
-        });
+          resultsBox.style.display = "block";
+        } catch (error) {
+          fejlBoks.style.display = "block";
+          fejlBoks.innerHTML = `Fejl ved adresseopslag: ${error.message}`;
+          resultsBox.style.display = "none";
+        }
+      }, 250);
+    });
 
-        resultsBox.style.display = "block";
-      } catch (error) {
-        console.error("Fejl ved adresseopslag:", error);
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".address-search")) {
         resultsBox.style.display = "none";
       }
-    }, 250);
-  });
-
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".address-search")) {
-      resultsBox.style.display = "none";
-    }
-  });
-</script>
+    });
+  </script>
+</body>
+</html>
