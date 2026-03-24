@@ -522,6 +522,7 @@
             div.textContent = item.tekst;
 
             div.addEventListener("click", () => {
+              console.log(item);
               try {
                 input.value = item.tekst;
                 resultsBox.innerHTML = "";
