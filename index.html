@@ -4,565 +4,97 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BoligTjek</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #1f2937;
-      line-height: 1.6;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 0;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .logo a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #374151;
-      font-size: 15px;
-    }
-
-    .hero {
-      padding: 90px 0 70px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
-      align-items: start;
-    }
-
-    .hero h1 {
-      font-size: 52px;
-      line-height: 1.1;
-      margin: 0 0 20px;
-    }
-
-    .hero p {
-      font-size: 20px;
-      color: #4b5563;
-      margin: 0 0 22px;
-      max-width: 700px;
-    }
-
-    .hero-card {
-      background: white;
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .hero-card h3 {
-      margin-top: 0;
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-
-    .hero-card p {
-      font-size: 16px;
-      margin-bottom: 18px;
-    }
-
-    .address-search {
-      position: relative;
-      margin-top: 28px;
-      max-width: 700px;
-    }
-
-    .address-search label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 10px;
-      font-size: 15px;
-    }
-
-    .address-search input {
-      width: 100%;
-      padding: 18px 18px;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
-      font-size: 17px;
-      background: white;
-    }
-
-    .address-search input:focus {
-      outline: none;
-      border-color: #1d4ed8;
-      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.10);
-    }
-
-    .results {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid #d1d5db;
-      border-radius: 14px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
-      overflow: hidden;
-      z-index: 1000;
-      display: none;
-    }
-
-    .result-item {
-      padding: 14px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 15px;
-    }
-
-    .result-item:last-child {
-      border-bottom: none;
-    }
-
-    .result-item:hover {
-      background: #f8fafc;
-    }
-
-    .selected-address,
-    .property-data,
-    .error-box {
-      margin-top: 16px;
-      border-radius: 12px;
-      padding: 16px 18px;
-      display: none;
-    }
-
-    .selected-address {
-      background: #eef2ff;
-      border: 1px solid #c7d2fe;
-    }
-
-    .property-data {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    }
-
-    .error-box {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-    }
-
-    .data-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px 24px;
-      margin-top: 12px;
-    }
-
-    .data-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .data-label {
-      display: block;
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 4px;
-    }
-
-    .data-value {
-      font-weight: 700;
-      color: #111827;
-    }
-
-    .section {
-      padding: 24px 0 70px;
-    }
-
-    .section h2 {
-      font-size: 34px;
-      margin-bottom: 14px;
-    }
-
-    .section-intro {
-      color: #4b5563;
-      max-width: 760px;
-      margin-bottom: 28px;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 20px;
-    }
-
-    .notice {
-      background: #eef2ff;
-      border: 1px solid #c7d2fe;
-      padding: 22px;
-      border-radius: 16px;
-      margin-top: 30px;
-    }
-
-    footer {
-      padding: 30px 0 50px;
-      color: #6b7280;
-      font-size: 14px;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid,
-      .card-grid,
-      .data-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .nav {
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-start;
-      }
-
-      .nav-links {
-        flex-wrap: wrap;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <header>
-    <div class="container nav">
-      <div class="logo">
-        <a href="#">BoligTjek</a>
-      </div>
-
-      <nav class="nav-links">
-        <a href="#hvordan">Sådan virker det</a>
-        <a href="#for-hvem">Hvem er siden til?</a>
-        <a href="#om">Om værktøjet</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#">BoligTjek</a>
+      <nav class="nav">
+        <a href="#start">Start</a>
+        <a href="#resultat">Resultat</a>
+        <a href="#upload">Kontrakt</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container hero-grid">
-
-        <div>
-          <h1>Undersøg dit lejemål</h1>
-
-          <p>
-            Start med at vælge adressen på ejendommen. Første trin er at finde
-            den korrekte adresse og vise de grundlæggende adresseoplysninger.
-          </p>
-
-          <div class="address-search">
-            <label for="adresseInput">Søg adresse</label>
-            <input
-              type="text"
-              id="adresseInput"
-              placeholder="Skriv adresse, fx Jagtvej 12, København"
-              autocomplete="off"
-            />
-            <div id="adresseResultater" class="results"></div>
-          </div>
-
-          <div id="valgtAdresse" class="selected-address"></div>
-          <div id="ejendomsData" class="property-data"></div>
-          <div id="fejlBoks" class="error-box"></div>
-        </div>
-
-        <div class="hero-card">
-          <h3>Hvad sker der efter adressevalg?</h3>
-          <p>
-            Når en adresse vælges, vises de første data fra adresseregistret.
-            Senere kan samme adresse bruges til opslag i BBR/Datafordeler.
-          </p>
-
-          <ul>
-            <li>Valg af præcis adresse</li>
-            <li>Visning af adresse-id</li>
-            <li>Visning af postnummer og kommune</li>
-            <li>Klar til næste trin med BBR-opslag</li>
-          </ul>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="section" id="for-hvem">
+    <section class="hero" id="start">
       <div class="container">
-        <h2>Hvem er siden til?</h2>
-
-        <p class="section-intro">
-          Siden er lavet til lejere, udlejere, administratorer og rådgivere,
-          som ønsker et bedre udgangspunkt for at undersøge et konkret lejemål.
+        <h1>Undersøg dit lejemål</h1>
+        <p>
+          Vælg hvordan du vil starte. Du kan tjekke dit lejemål, tjekke lejeniveau
+          eller uploade kontrakt for ekstra hjælp.
         </p>
 
-        <div class="card-grid">
-          <div class="card">
-            <h3>For lejere</h3>
-            <p>Find ejendommen hurtigt og brug adressen som første skridt i et lejetjek.</p>
-          </div>
-
-          <div class="card">
-            <h3>For udlejere</h3>
-            <p>Brug adressen som nøglen til videre opslag i registre og dokumentation.</p>
-          </div>
-
-          <div class="card">
-            <h3>For rådgivere</h3>
-            <p>Skab et enkelt indgangspunkt før mere detaljerede vurderinger og opslag.</p>
-          </div>
+        <div class="cta-row">
+          <button class="primary-btn" onclick="startFlow('lejetype')">Tjek dit lejemål</button>
+          <button class="secondary-btn" onclick="startFlow('lejeberegning')">Tjek din leje</button>
+          <button class="secondary-btn" onclick="startFlow('kontrakt')">Upload kontrakt</button>
         </div>
       </div>
     </section>
 
-    <section class="section" id="hvordan">
+    <section class="section hidden" id="rolleSection">
       <div class="container">
-        <h2>Sådan virker det</h2>
-
-        <p class="section-intro">
-          Første version starter med adressevalg. Derefter kan den valgte adresse
-          bruges som grundlag for at hente flere offentlige oplysninger.
-        </p>
-
-        <div class="card-grid">
-          <div class="card">
-            <h3>1. Vælg adresse</h3>
-            <p>Søg og vælg den præcise adresse fra dropdown-listen.</p>
-          </div>
-
-          <div class="card">
-            <h3>2. Vis grunddata</h3>
-            <p>Se de første oplysninger direkte fra adresseregistret.</p>
-          </div>
-
-          <div class="card">
-            <h3>3. Klar til BBR</h3>
-            <p>Næste trin er at koble adressen til en backend, som kan hente BBR-data.</p>
-          </div>
-        </div>
-
-        <div class="notice">
-          <strong>Næste fase:</strong>
-          BBR/Datafordeler kobles på senere via backend.
+        <h2>Hvem er du?</h2>
+        <div class="card-row">
+          <button class="card-button" onclick="setRole('lejer')">Jeg er lejer</button>
+          <button class="card-button" onclick="setRole('udlejer')">Jeg er udlejer</button>
         </div>
       </div>
     </section>
 
-    <section class="section" id="om">
+    <section class="section hidden" id="adresseSection">
       <div class="container">
-        <h2>Om værktøjet</h2>
+        <h2>Vælg adresse</h2>
 
-        <p class="section-intro">
-          BoligTjek er i tidlig fase. Først bygges en stabil adressevælger og
-          tydelig visning af grunddata. Derefter kan løsningen udvides med
-          ejendomsdata, lejelogik og dokumentanalyse.
-        </p>
-
-        <div class="notice">
-          <strong>Vigtigt:</strong>
-          BBR-oplysninger som opførelsesår, areal og bygningstype er ikke med endnu.
+        <div class="address-search">
+          <label for="adresseInput">Søg adresse</label>
+          <input
+            type="text"
+            id="adresseInput"
+            placeholder="Skriv adresse, fx Jagtvej 113, København"
+            autocomplete="off"
+          />
+          <div id="adresseResultater" class="results"></div>
         </div>
+
+        <div id="valgtAdresse" class="info-box hidden"></div>
+        <div id="ejendomsData" class="info-box hidden"></div>
+      </div>
+    </section>
+
+    <section class="section hidden" id="sporgsmalSection">
+      <div class="container">
+        <h2>Næste spørgsmål</h2>
+        <div id="sporgsmalIndhold"></div>
+      </div>
+    </section>
+
+    <section class="section hidden" id="upload">
+      <div class="container">
+        <h2>Upload kontrakt</h2>
+        <p>Du kan uploade kontrakten som ekstra hjælp til vurderingen.</p>
+
+        <form id="uploadForm">
+          <input type="file" id="contractFile" name="contract" accept=".pdf,.doc,.docx" />
+          <button type="submit" class="primary-btn">Upload kontrakt</button>
+        </form>
+
+        <div id="uploadStatus" class="info-box hidden"></div>
+      </div>
+    </section>
+
+    <section class="section hidden" id="resultat">
+      <div class="container">
+        <h2>Foreløbigt resultat</h2>
+        <div id="resultatBox" class="info-box"></div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      BoligTjek · Prototype med adressevalg
-    </div>
-  </footer>
-
-  <script>
-    const input = document.getElementById("adresseInput");
-    const resultsBox = document.getElementById("adresseResultater");
-    const valgtAdresseBox = document.getElementById("valgtAdresse");
-    const ejendomsDataBox = document.getElementById("ejendomsData");
-    const fejlBoks = document.getElementById("fejlBoks");
-
-    let debounceTimer;
-
-    function skjulBokse() {
-      valgtAdresseBox.style.display = "none";
-      ejendomsDataBox.style.display = "none";
-      fejlBoks.style.display = "none";
-      fejlBoks.innerHTML = "";
-    }
-
-    function renderAdresseData(adresse) {
-      ejendomsDataBox.style.display = "block";
-      ejendomsDataBox.innerHTML = `
-        <strong>Grunddata fra adresseregistret</strong>
-        <div class="data-grid">
-          <div class="data-item">
-            <span class="data-label">Adresse-id</span>
-            <span class="data-value">${adresse.id ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Adgangsadresse-id</span>
-            <span class="data-value">${adresse.adgangsadresseid ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Vejnavn</span>
-            <span class="data-value">${adresse.vejnavn ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Husnr.</span>
-            <span class="data-value">${adresse.husnr ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Postnummer</span>
-            <span class="data-value">${adresse.postnr ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Postdistrikt</span>
-            <span class="data-value">${adresse.postnrnavn ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Kommunekode</span>
-            <span class="data-value">${adresse.kommunekode ?? "-"}</span>
-          </div>
-
-          <div class="data-item">
-            <span class="data-label">Koordinater</span>
-            <span class="data-value">${adresse.x ?? "-"}, ${adresse.y ?? "-"}</span>
-          </div>
-        </div>
-      `;
-    }
-
-    input.addEventListener("input", function () {
-      const query = input.value.trim();
-
-      clearTimeout(debounceTimer);
-      skjulBokse();
-
-      if (query.length < 3) {
-        resultsBox.style.display = "none";
-        resultsBox.innerHTML = "";
-        return;
-      }
-
-      debounceTimer = setTimeout(async () => {
-        try {
-          const url = `https://api.dataforsyningen.dk/adresser/autocomplete?q=${encodeURIComponent(query)}`;
-          const response = await fetch(url);
-          const data = await response.json();
-
-          resultsBox.innerHTML = "";
-
-          if (!data.length) {
-            resultsBox.style.display = "none";
-            return;
-          }
-
-          data.slice(0, 8).forEach(item => {
-            const div = document.createElement("div");
-            div.className = "result-item";
-            div.textContent = item.tekst;
-
-            div.addEventListener("click", () => {
-              console.log(item);
-              try {
-                input.value = item.tekst;
-                resultsBox.innerHTML = "";
-                resultsBox.style.display = "none";
-                fejlBoks.style.display = "none";
-
-                valgtAdresseBox.style.display = "block";
-                valgtAdresseBox.innerHTML = `
-                  <strong>Valgt adresse:</strong><br>
-                  ${item.tekst}
-                `;
-
-                if (!item.adresse) {
-                  throw new Error("Adresseobjekt mangler i svaret.");
-                }
-
-                renderAdresseData(item.adresse);
-              } catch (error) {
-                fejlBoks.style.display = "block";
-                fejlBoks.innerHTML = `Fejl: ${error.message}`;
-              }
-            });
-
-            resultsBox.appendChild(div);
-          });
-
-          resultsBox.style.display = "block";
-        } catch (error) {
-          fejlBoks.style.display = "block";
-          fejlBoks.innerHTML = `Fejl ved adresseopslag: ${error.message}`;
-          resultsBox.style.display = "none";
-        }
-      }, 250);
-    });
-
-    document.addEventListener("click", function (e) {
-      if (!e.target.closest(".address-search")) {
-        resultsBox.style.display = "none";
-      }
-    });
-  </script>
+  <script src="data/config.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
