@@ -305,8 +305,7 @@
 
           <p>
             Start med at vælge adressen på ejendommen. Første trin er at finde
-            den korrekte adresse og hente grundlæggende adresseoplysninger.
-            Næste trin bliver at koble adressen til ejendoms- og bygningsdata.
+            den korrekte adresse og vise de grundlæggende adresseoplysninger.
           </p>
 
           <div class="address-search">
@@ -328,15 +327,14 @@
         <div class="hero-card">
           <h3>Hvad sker der efter adressevalg?</h3>
           <p>
-            Når en adresse vælges, kan siden hente de første oplysninger direkte
-            fra adresseregistret. Senere kan samme adresse bruges som nøgle til
-            opslag i BBR/Datafordeler via backend.
+            Når en adresse vælges, vises de første data fra adresseregistret.
+            Senere kan samme adresse bruges til opslag i BBR/Datafordeler.
           </p>
 
           <ul>
             <li>Valg af præcis adresse</li>
-            <li>Visning af adresse-id og adgangsadresse-id</li>
-            <li>Visning af postnummer, kommune og koordinater</li>
+            <li>Visning af adresse-id</li>
+            <li>Visning af postnummer og kommune</li>
             <li>Klar til næste trin med BBR-opslag</li>
           </ul>
         </div>
@@ -350,8 +348,7 @@
 
         <p class="section-intro">
           Siden er lavet til lejere, udlejere, administratorer og rådgivere,
-          som ønsker et bedre og mere struktureret udgangspunkt for at undersøge
-          et konkret lejemål.
+          som ønsker et bedre udgangspunkt for at undersøge et konkret lejemål.
         </p>
 
         <div class="card-grid">
@@ -389,20 +386,19 @@
           </div>
 
           <div class="card">
-            <h3>2. Hent adresseoplysninger</h3>
-            <p>Vis grunddata som adresse-id, adgangsadresse-id, kommune og koordinater.</p>
+            <h3>2. Vis grunddata</h3>
+            <p>Se de første oplysninger direkte fra adresseregistret.</p>
           </div>
 
           <div class="card">
             <h3>3. Klar til BBR</h3>
-            <p>Næste trin er at koble adressen til en backend, som sikkert kan hente BBR-data.</p>
+            <p>Næste trin er at koble adressen til en backend, som kan hente BBR-data.</p>
           </div>
         </div>
 
         <div class="notice">
           <strong>Næste fase:</strong>
-          Direkte frontend-opslag kan bruges til adresser. BBR/Datafordeler bør
-          kaldes fra backend, så nøgler og autentifikation ikke ligger åbent i browseren.
+          BBR/Datafordeler kobles på senere via backend.
         </div>
       </div>
     </section>
@@ -419,8 +415,7 @@
 
         <div class="notice">
           <strong>Vigtigt:</strong>
-          De egentlige BBR-oplysninger som opførelsesår, areal og bygningstype
-          bør hentes via backend mod Datafordeler, ikke direkte fra åben browserkode.
+          BBR-oplysninger som opførelsesår, areal og bygningstype er ikke med endnu.
         </div>
       </div>
     </section>
@@ -428,7 +423,7 @@
 
   <footer>
     <div class="container">
-      BoligTjek · Prototype med adressevalg og grunddata
+      BoligTjek · Prototype med adressevalg
     </div>
   </footer>
 
@@ -451,61 +446,49 @@
     function renderAdresseData(adresse) {
       ejendomsDataBox.style.display = "block";
       ejendomsDataBox.innerHTML = `
-        <strong>Grunddata fra adresseopslaget</strong>
+        <strong>Grunddata fra adresseregistret</strong>
         <div class="data-grid">
           <div class="data-item">
             <span class="data-label">Adresse-id</span>
             <span class="data-value">${adresse.id ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Adgangsadresse-id</span>
             <span class="data-value">${adresse.adgangsadresseid ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Vejnavn</span>
             <span class="data-value">${adresse.vejnavn ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Husnr.</span>
             <span class="data-value">${adresse.husnr ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Postnummer</span>
             <span class="data-value">${adresse.postnr ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Postdistrikt</span>
             <span class="data-value">${adresse.postnrnavn ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Kommunekode</span>
             <span class="data-value">${adresse.kommunekode ?? "-"}</span>
           </div>
+
           <div class="data-item">
             <span class="data-label">Koordinater</span>
             <span class="data-value">${adresse.x ?? "-"}, ${adresse.y ?? "-"}</span>
           </div>
         </div>
       `;
-    }
-
-    async function hentAdresseDetaljer(adresseId) {
-      const url = `https://api.dataforsyningen.dk/adresser/${adresseId}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("Kunne ikke hente adresseoplysninger.");
-      }
-
-      return await response.json();
-    }
-
-    async function hentBbrDataFraBackend(adresseId) {
-      // Senere backend-kald:
-      // const response = await fetch(`/api/bbr?adresseId=${encodeURIComponent(adresseId)}`);
-      // return await response.json();
-
-      return null;
     }
 
     input.addEventListener("input", function () {
@@ -538,7 +521,7 @@
             div.className = "result-item";
             div.textContent = item.tekst;
 
-            div.addEventListener("click", async () => {
+            div.addEventListener("click", () => {
               try {
                 input.value = item.tekst;
                 resultsBox.innerHTML = "";
@@ -551,16 +534,11 @@
                   ${item.tekst}
                 `;
 
-                const adresseId = item.adresse?.id;
-                if (!adresseId) {
-                  throw new Error("Adresse-id mangler i svaret.");
+                if (!item.adresse) {
+                  throw new Error("Adresseobjekt mangler i svaret.");
                 }
 
-                const adresseDetaljer = await hentAdresseDetaljer(adresseId);
-                renderAdresseData(adresseDetaljer);
-
-                const bbrData = await hentBbrDataFraBackend(adresseId);
-                console.log("BBR-data (placeholder):", bbrData);
+                renderAdresseData(item.adresse);
               } catch (error) {
                 fejlBoks.style.display = "block";
                 fejlBoks.innerHTML = `Fejl: ${error.message}`;
